@@ -1,5 +1,7 @@
 import { Router } from 'express';
 import { 
+  obtenerMedicamentos, 
+  obtenerPorId, // <-- Asegúrate de que coincida con el export del controlador
   agregarMedicamento, 
   agregarCantidad, 
   eliminarMedicamento 
@@ -13,21 +15,27 @@ import { verificarToken } from '../middlewares/auth.middleware.js';
 
 const router = Router();
 
-// 1. Agregar un nuevo medicamento (Requiere autenticación, validación de datos y rol permitido)
+// Obtener lista de medicamentos
+router.get('/', verificarToken, obtenerMedicamentos);
+
+// Obtener medicamento por ID (usando 'obtenerPorId')
+router.get('/:id', verificarToken, obtenerPorId);
+
+// 1. Agregar un nuevo medicamento
 router.post(
   '/', 
   [verificarToken, validarRolMedicamentos, validarCrearMedicamento], 
   agregarMedicamento
 );
 
-// 2. Agregar stock/cantidad a un medicamento existente por su ID
+// 2. Agregar stock/cantidad
 router.patch(
   '/:id/cantidad', 
   [verificarToken, validarRolMedicamentos, validarCantidadMedicamento], 
   agregarCantidad
 );
 
-// 3. Eliminar un medicamento por su ID
+// 3. Eliminar un medicamento
 router.delete(
   '/:id', 
   [verificarToken, validarRolMedicamentos], 

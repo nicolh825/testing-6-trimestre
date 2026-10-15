@@ -1,5 +1,5 @@
 import pool from '../config/db.js';
-import { Usuario } from '../models/usuario.model.js';
+import { Usuario } from '../models/auth.model.js';
 
 export const AuthRepository = {
   async findByUsername(username) {

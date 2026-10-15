@@ -1,12 +1,28 @@
 import { MedicamentoRepository } from '../repositories/medicamento.repository.js';
 
 export const MedicamentoService = {
-  // 1. Agregar un nuevo medicamento (aquí puedes poner reglas de negocio, ej. validar duplicados)
+  // 0. Obtener todos los medicamentos
+  async obtenerTodos() {
+    return await MedicamentoRepository.findAll(); // Asegúrate de que tu repositorio use este método para listar
+  },
+
+  // 0.1. Obtener un medicamento por su ID
+  async obtenerPorId(id) {
+    const medicamento = await MedicamentoRepository.findById(id);
+    if (!medicamento) {
+      throw new Error('El medicamento no fue encontrado.');
+    }
+    return medicamento;
+  },
+
+  // 1. Agregar un nuevo medicamento
   async agregar(medicamentoData) {
-    // Ejemplo de validación de negocio adicional: verificar si ya existe por nombre
-    const existente = await MedicamentoRepository.findById(medicamentoData.id_medicamento);
-    if (existente) {
-      throw new Error('Ya existe un medicamento con ese identificador.');
+    // Si envían un id_medicamento y quieres validar si ya existe:
+    if (medicamentoData.id_medicamento) {
+      const existente = await MedicamentoRepository.findById(medicamentoData.id_medicamento);
+      if (existente) {
+        throw new Error('Ya existe un medicamento con ese identificador.');
+      }
     }
     return await MedicamentoRepository.create(medicamentoData);
   },

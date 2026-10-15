@@ -34,3 +34,25 @@ export const permitirRoles = (...rolesPermitidos) => {
     next();
   };
 };
+
+// Middleware para validar campos obligatorios en el Login
+export const validarLogin = (req, res, next) => {
+  const { username, password } = req.body;
+  
+  if (!username || !password) {
+    return res.status(400).json({ error: 'El campo de usuario/correo y la contraseña son obligatorios.' });
+  }
+  
+  next();
+};
+
+// Middleware para validar campos obligatorios en el Registro
+export const validarRegistro = (req, res, next) => {
+  const { username, email, password } = req.body;
+  
+  if (!username || !email || !password) {
+    return res.status(400).json({ error: 'Todos los campos (username, email y password) son obligatorios para el registro.' });
+  }
+  
+  next();
+};

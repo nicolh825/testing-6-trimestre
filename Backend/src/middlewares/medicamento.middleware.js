@@ -24,9 +24,9 @@ export const validarCantidadMedicamento = (req, res, next) => {
   next();
 };
 
-// Middleware opcional: validar roles permitidos para gestionar farmacia (ej. solo Admin o personal autorizado)
+// Middleware para validar roles permitidos para gestionar farmacia
 export const validarRolMedicamentos = (req, res, next) => {
-  const rolesPermitidos = ['ADMIN', 'MEDICO']; // O el rol encargado de farmacia
+  const rolesPermitidos = ['ADMIN', 'MEDICO'];
   
   if (!req.usuario || !rolesPermitidos.includes(req.usuario.rol)) {
     return res.status(403).json({ 
